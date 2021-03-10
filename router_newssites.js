@@ -1,6 +1,7 @@
 const client = require('./database');
+
 const GetCreateNewsSite = (req, res) => {
-    return res.render('create.ejs');
+    return res.render('news_sites/create_news_site.ejs');
 };
 
 const PostCreateNewsSite = (req, res) => {
@@ -10,7 +11,14 @@ const PostCreateNewsSite = (req, res) => {
     });
 }
 
+const GetNewsSites = (req, res) => {
+    client.query(`SELECT * FROM newssite;`, [], (err, result) => {
+        return res.render('news_sites/view_all_news_sites.ejs', { data: result.rows });
+    });
+}
+
 module.exports = {
     GetCreateNewsSite: GetCreateNewsSite,
-    PostCreateNewsSite: PostCreateNewsSite
+    PostCreateNewsSite: PostCreateNewsSite,
+    GetNewsSites: GetNewsSites
 }
