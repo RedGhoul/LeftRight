@@ -6,15 +6,16 @@ function initialize(passport) {
   const authenticateUser = async (email, password, done) => {
     user = client.query(`SELECT * FROM users WHERE email = $1;`, [email], (err, res) => {
       console.log(err, res)
+      if (!res.rows[0]) {
+        return done(null, false, { message: 'No user with that email' })
+      }
       user = {
         id: res.rows[0].id,
         email: res.rows[0].email,
         name: res.rows[0].name,
         password: res.rows[0].password
       };
-      if (user == null) {
-        return done(null, false, { message: 'No user with that email' })
-      }
+
       bcrypt.compare(password, user.password, function (err, res) {
         if (err) {
           return done(null, false, { message: 'Password incorrect' })
