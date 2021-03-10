@@ -10,11 +10,12 @@ const flash = require('express-flash')
 const session = require('express-session')
 const methodOverride = require('method-override')
 const client = require('./database');
-const puppeteer = require('puppeteer');
-const { router } = require('bull-board')
-const initializePassport = require('./passport-config')
+const { Router, StartProcesses } = require('./tasks');
+const { GetCreateNewsSite, PostCreateNewsSite } = require('./router');
+const initializePassport = require('./passport-config');
 initializePassport(passport);
 
+StartProcesses();
 
 app.set('view-engine', 'ejs')
 app.use(express.urlencoded({ extended: false }))
@@ -28,25 +29,14 @@ app.use(passport.initialize())
 app.use(passport.session())
 app.use(methodOverride('_method'))
 
-app.use('/admin/queues', checkAuthenticated, router);
+app.use('/admin/queues', checkAuthenticated, Router);
 
 app.get('/', checkAuthenticated, (req, res) => {
-
-
-  (async () => {
-    const browser = await puppeteer.launch();
-    const page = await browser.newPage();
-    await page.goto('https://news.ycombinator.com', {
-      waitUntil: 'networkidle2',
-    });
-    await page.screenshot({ path: 'example.png' });
-    await browser.close();
-  })();
-  res.render('index.ejs', { name: req.user.name })
+  return res.render('index.ejs', { name: req.user.name });
 })
 
 app.get('/login', checkNotAuthenticated, (req, res) => {
-  res.render('login.ejs')
+  return res.render('login.ejs');
 })
 
 app.post('/login', checkNotAuthenticated, passport.authenticate('local', {
@@ -56,40 +46,43 @@ app.post('/login', checkNotAuthenticated, passport.authenticate('local', {
 }))
 
 app.get('/register', checkNotAuthenticated, (req, res) => {
-  res.render('register.ejs')
+  return res.render('register.ejs');
 })
 
 app.post('/register', checkNotAuthenticated, async (req, res) => {
   try {
     const hashedPassword = await bcrypt.hash(req.body.password, 10)
-
     const res = await client.query(`INSERT INTO users (name, email, password)
     VALUES ($1, $2, $3);`, [req.body.name, req.body.email, hashedPassword]);
-    console.log(res.rows[0])
-    res.redirect('/login')
+    return res.redirect('/login');
   } catch {
-    res.redirect('/register')
+    return res.redirect('/register');
   }
 })
 
 app.delete('/logout', (req, res) => {
-  req.logOut()
-  res.redirect('/login')
+  req.logOut();
+  return res.redirect('/login');
 })
+
+app.get("/CreateNewSite", checkAuthenticated, GetCreateNewsSite);
+app.post("/CreateNewSite", checkAuthenticated, PostCreateNewsSite);
 
 function checkAuthenticated(req, res, next) {
   if (req.isAuthenticated()) {
-    return next()
+    return next();
   }
 
-  res.redirect('/login')
+  return res.redirect('/login')
 }
 
 function checkNotAuthenticated(req, res, next) {
   if (req.isAuthenticated()) {
-    return res.redirect('/')
+    return res.redirect('/');
   }
-  next()
+  return next();
 }
 
-app.listen(3000)
+app.listen(3000, () => {
+  console.log("Connected !");
+})

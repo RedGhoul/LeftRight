@@ -12,6 +12,7 @@
     "bcryptjs": "^2.4.3",
     "bull": "^3.20.1",
     "bull-board": "^1.4.1",
+    "cheerio": "^1.0.0-rc.5",
     "ejs": "^2.6.2",
     "express": "^4.17.1",
     "express-flash": "0.0.2",
@@ -22,7 +23,8 @@
     "pg": "^8.5.1",
     "pg-hstore": "^2.3.3",
     "puppeteer": "^8.0.0",
-    "sequelize": "^6.5.0"
+    "sequelize": "^6.5.0",
+    "uuid": "^8.3.2"
   },
   "devDependencies": {
     "dotenv": "^8.0.0",
