@@ -33,7 +33,7 @@ app.use(passport.session())
 app.use(methodOverride('_method'))
 
 app.use('/admin/queues', checkAuthenticated, Router);
-app.get('/', checkAuthenticated, GetHomePage);
+app.get('/', GetHomePage);
 app.get('/login', checkNotAuthenticated, GetLoginPage);
 app.post('/login', checkNotAuthenticated, passport.authenticate('local', {
   successRedirect: '/',

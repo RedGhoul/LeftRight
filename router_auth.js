@@ -2,7 +2,7 @@ const client = require('./database');
 const bcrypt = require('bcryptjs')
 
 const GetHomePage = (req, res) => {
-    return res.render('index.ejs', { name: req.user.name });
+    return res.render('home.ejs');
 }
 
 const GetLoginPage = (req, res) => {
