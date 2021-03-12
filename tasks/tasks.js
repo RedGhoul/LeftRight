@@ -1,4 +1,4 @@
-const client = require('./database');
+const client = require('../database/database');
 const cheerio = require('cheerio');
 const Queue = require('bull');
 const { setQueues, BullAdapter, router } = require('bull-board');
@@ -13,7 +13,6 @@ setQueues([
     new BullAdapter(mainqq)
 ]);
 async function StartProcesses() {
-
     mainqq.process(function (job, done) {
         client.query(`SELECT * FROM newssite;`, (err, result) => {
             result.rows.forEach(element => {
@@ -22,20 +21,20 @@ async function StartProcesses() {
                     const page = await browser.newPage();
                     await page.goto(element.url);
                     const data = await page.evaluate(() => document.querySelector('*').outerHTML);
-                    const $ = cheerio.load(data);
-                    const stuff = $(".cd__headline-text")
-                    try {
+                    if (element.name === 'CNN') {
+                        const $ = cheerio.load(data);
+                        const stuff = $(".cd__headline-text")
                         for (i = 0; i < stuff.length; i++) {
                             if (stuff[i].children[0].data) {
                                 console.log(stuff[i].children[0].data);
                             }
                         }
-                    } catch (error) {
-                        console.log(error)
+                        await page.screenshot({ path: `${uuidv4() + element.name}example.png` });
                         await browser.close();
-                    }
+                    } else if (element.name === 'HuffPost') { }
 
-                    //await page.screenshot({ path: `${uuidv4()}example.png` });
+
+
                     await browser.close();
                     console.log("Finished");
                 })();

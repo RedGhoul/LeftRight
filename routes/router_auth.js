@@ -1,4 +1,4 @@
-const client = require('./database');
+const client = require('../database/database');
 const bcrypt = require('bcryptjs')
 
 const GetHomePage = (req, res) => {

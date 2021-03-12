@@ -1,4 +1,4 @@
-const client = require('./database');
+const client = require('../database/database');
 
 const GetCreateNewsSite = (req, res) => {
     return res.render('news_sites/create_news_site.ejs');
