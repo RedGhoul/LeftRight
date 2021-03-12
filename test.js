@@ -1,6 +1,9 @@
 const puppeteer = require('puppeteer');
 const cheerio = require('cheerio');
 const client = require('./database/database');
+const UpLoadFileImage = require('./tasks/uploader');
+require('dotenv').config()
+
 client.query(`SELECT * FROM newssite;`, (err, result) => {
     result.rows.forEach(element => {
         (async () => {
@@ -42,9 +45,14 @@ client.query(`SELECT * FROM newssite;`, (err, result) => {
                     }
                 }
             }
-
-            await page.screenshot({ path: `${element.name}example.png`, fullPage: true });
+            let fileName = `${element.name + new Date().toLocaleDateString("en-US").split('/').join('-')}.png`;
+            await page.screenshot({ path: fileName, fullPage: true })
+                .then((result) => {
+                    console.log(result)
+                    UpLoadFileImage(fileName);
+                });
             await browser.close();
+
             return;
         })();
     });
