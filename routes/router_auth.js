@@ -29,27 +29,12 @@ const Logout = (req, res) => {
     return res.redirect('/login');
 }
 
-const checkAuthenticated = (req, res, next) => {
-    if (req.isAuthenticated()) {
-        return next();
-    }
 
-    return res.redirect('/login')
-}
-
-const checkNotAuthenticated = (req, res, next) => {
-    if (req.isAuthenticated()) {
-        return res.redirect('/');
-    }
-    return next();
-}
 
 module.exports = {
     GetLoginPage: GetLoginPage,
     GetRegister: GetRegister,
     PostRegister: PostRegister,
     Logout: Logout,
-    checkAuthenticated: checkAuthenticated,
-    checkNotAuthenticated: checkNotAuthenticated,
     GetHomePage: GetHomePage
 }

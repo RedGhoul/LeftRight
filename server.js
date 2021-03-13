@@ -14,8 +14,10 @@ const { GetCreateNewsSite, PostCreateNewsSite,
   GetNewsSites } = require('./routes/router_newssites');
 
 const { GetLoginPage, GetRegister,
-  PostRegister, Logout, checkAuthenticated,
-  checkNotAuthenticated, GetHomePage } = require('./routes/router_auth');
+  PostRegister, Logout, GetHomePage } = require('./routes/router_auth');
+
+const { checkAuthenticated,
+  checkNotAuthenticated, addLoginFlag } = require('./middleware/middleware');
 
 const initializePassport = require('./auth/passport-config');
 
@@ -31,7 +33,7 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(methodOverride('_method'));
-
+app.use(addLoginFlag);
 app.get('/', GetHomePage);
 app.get('/login', checkNotAuthenticated, GetLoginPage);
 app.post('/login', checkNotAuthenticated, passport.authenticate('local', {
@@ -47,7 +49,7 @@ app.post("/NewSite/Create", checkAuthenticated, PostCreateNewsSite);
 app.get("/NewSite", checkAuthenticated, GetNewsSites);
 app.use('/admin/queues', checkAuthenticated, Router);
 
-StartProcesses();
+//StartProcesses();
 app.listen(process.env.PORT, () => {
   console.log("Connected !");
 })
