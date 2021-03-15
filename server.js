@@ -44,9 +44,9 @@ app.post('/login', checkNotAuthenticated, passport.authenticate('local', {
 app.get('/register', checkNotAuthenticated, GetRegister);
 app.post('/register', checkNotAuthenticated, PostRegister);
 app.delete('/logout', Logout);
+app.get("/NewSite/All", checkAuthenticated, GetNewsSites);
 app.get("/NewSite/Create", checkAuthenticated, GetCreateNewsSite);
 app.post("/NewSite/Create", checkAuthenticated, PostCreateNewsSite);
-app.get("/NewSite", checkAuthenticated, GetNewsSites);
 app.use('/admin/queues', checkAuthenticated, Router);
 
 //StartProcesses();
