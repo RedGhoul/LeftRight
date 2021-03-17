@@ -5,7 +5,7 @@ const client = require('../database/database');
 function initialize(passport) {
   const authenticateUser = async (email, password, done) => {
     user = client.query(`SELECT * FROM users WHERE email = $1;`, [email], (err, res) => {
-      if (!res.rows[0]) {
+      if (err) {
         return done(null, false, { message: 'No user with that email' })
       }
       user = {
