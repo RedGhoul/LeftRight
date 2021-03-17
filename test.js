@@ -67,7 +67,7 @@ const CreateSnapShot = async (newssite_id, imageurl) => {
 
 
 const CreateHeadLines = async (headline, snapshot_id) => {
-    await client.query(`INSERT INTO headline (headline, snapshot_id) VALUES ($1, $2)`,
+    await client.query(`INSERT INTO headline (value_text, snapshot_id) VALUES ($1, $2)`,
         [headline, snapshot_id]);
 }
 

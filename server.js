@@ -11,7 +11,7 @@ const session = require('express-session');
 const methodOverride = require('method-override');
 const { Router, StartProcesses } = require('./tasks/tasks');
 const { GetCreateNewsSite, PostCreateNewsSite,
-  GetNewsSites } = require('./routes/router_newssites');
+  GetNewsSites, DeleteNewsSites, UpdateNewsSites, GetUpdateNewsSitesForm } = require('./routes/router_newssites');
 
 const { GetLoginPage, GetRegister,
   PostRegister, Logout, GetHomePage } = require('./routes/router_auth');
@@ -44,9 +44,12 @@ app.post('/login', checkNotAuthenticated, passport.authenticate('local', {
 app.get('/register', checkNotAuthenticated, GetRegister);
 app.post('/register', checkNotAuthenticated, PostRegister);
 app.delete('/logout', Logout);
-app.get("/NewSite/All", checkAuthenticated, GetNewsSites);
-app.get("/NewSite/Create", checkAuthenticated, GetCreateNewsSite);
-app.post("/NewSite/Create", checkAuthenticated, PostCreateNewsSite);
+app.get("/NewsSite/All", checkAuthenticated, GetNewsSites);
+app.get("/NewsSite/Create", checkAuthenticated, GetCreateNewsSite);
+app.post("/NewsSite/Create", checkAuthenticated, PostCreateNewsSite);
+app.delete('/NewsSite/Delete/:id', checkAuthenticated, DeleteNewsSites);
+app.get('/NewsSite/Update/:id', checkAuthenticated, GetUpdateNewsSitesForm);
+app.post('/NewsSite/Update/:id', checkAuthenticated, UpdateNewsSites);
 app.use('/admin/queues', checkAuthenticated, Router);
 
 //StartProcesses();
