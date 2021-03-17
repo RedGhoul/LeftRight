@@ -52,7 +52,10 @@ app.get('/NewsSite/Update/:id', checkAuthenticated, GetUpdateNewsSitesForm);
 app.post('/NewsSite/Update/:id', checkAuthenticated, UpdateNewsSites);
 app.use('/admin/queues', checkAuthenticated, Router);
 
-//StartProcesses();
+if (process.env.JOB_ENABLED != "NO") {
+  StartProcesses();
+}
+
 app.listen(process.env.PORT, '0.0.0.0', () => {
   console.log("Connected !");
 })

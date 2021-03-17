@@ -5,7 +5,9 @@ const { setQueues, BullAdapter, router } = require('bull-board');
 const puppeteer = require('puppeteer');
 const mainqq = new Queue('mainqq', {
     redis: {
-        port: 6379, host: '127.0.0.1', password: ''
+        port: process.env.REDIS_PORT,
+        host: process.env.REDIS_HOST,
+        password: process.env.REDIS_PASSPORT
     }
 });
 const { v4: uuidv4 } = require('uuid');
@@ -17,37 +19,63 @@ async function StartProcesses() {
         client.query(`SELECT * FROM newssite;`, (err, result) => {
             result.rows.forEach(element => {
                 (async () => {
-                    const browser = await puppeteer.launch();
+                    const browser = await puppeteer.launch({
+                        headless: true,
+                        timeout: 100000
+                    });
                     const page = await browser.newPage();
-                    await page.goto(element.url);
+                    try {
+                        await page.goto(element.url, {
+                            waitUntil: 'networkidle2'
+                        });
+                    } catch (error) {
+                        await browser.close();
+                        return;
+                    }
+                    let snapShotId = await CreateSnapShot(element.id, '');
                     const data = await page.evaluate(() => document.querySelector('*').outerHTML);
+                    const $ = cheerio.load(data);
                     if (element.name === 'CNN') {
-                        const $ = cheerio.load(data);
-                        const stuff = $(".cd__headline-text")
+                        const stuff = $(".cd__headline-text");
                         for (i = 0; i < stuff.length; i++) {
                             if (stuff[i].children[0].data) {
-                                console.log(stuff[i].children[0].data);
+                                await CreateHeadLines(stuff[i].children[0].data, snapShotId);
                             }
                         }
-                        await page.screenshot({ path: `${uuidv4() + element.name}example.png` });
-                        await browser.close();
-                    } else if (element.name === 'HuffPost') { }
-
-
-
+                    } else if (element.name === 'HuffPost') {
+                        const stuff = $(".card__headline__text");
+                        for (i = 0; i < stuff.length; i++) {
+                            if (stuff[i].children[0].data) {
+                                await CreateHeadLines(stuff[i].children[0].data, snapShotId);
+                            }
+                        }
+                    } else if (element.name === 'Fox') {
+                        const stuff = $(".title.title-color-default");
+                        for (i = 0; i < stuff.length; i++) {
+                            if (stuff[i].children[0].children[0].data) {
+                                await CreateHeadLines(stuff[i].children[0].children[0].data, snapShotId);
+                            }
+                        }
+                    }
+                    let fileName = `${element.name + new Date().toLocaleDateString("en-US").split('/').join('-')}.png`;
+                    await page.screenshot({ path: fileName, fullPage: true })
+                        .then((result) => {
+                            console.log(result)
+                            UpLoadFileImage(fileName);
+                        });
                     await browser.close();
-                    console.log("Finished");
+
+                    return;
                 })();
             });
-
+            done();
         });
-        done();
     });
     const myJob = await mainqq.add(
         { foo: 'bar' },
         {
             repeat: {
-                every: 10000,
+                every: process.env.JOB_DELAY,
             }
         }
     );
