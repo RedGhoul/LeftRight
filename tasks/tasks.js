@@ -64,11 +64,11 @@ async function StartProcesses() {
                             UpLoadFileImage(fileName);
                         });
                     await browser.close();
-
+                    done();
                     return;
                 })();
             });
-            done();
+
         });
     });
     const myJob = await mainqq.add(
