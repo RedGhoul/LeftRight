@@ -10,6 +10,8 @@ const mainqq = new Queue('mainqq', {
         password: process.env.REDIS_PASSPORT
     }
 });
+const UpLoadFileImage = require('./tasks/uploader');
+require('dotenv').config()
 const { v4: uuidv4 } = require('uuid');
 setQueues([
     new BullAdapter(mainqq)
@@ -83,7 +85,17 @@ async function StartProcesses() {
     );
 
 }
+const CreateSnapShot = async (newssite_id, imageurl) => {
+    let stuff = await client.query(`INSERT INTO snapshot (newssite_id, imageurl) VALUES ($1, $2) RETURNING id`,
+        [newssite_id, imageurl]);
+    return stuff.rows[0].id;
+}
 
+
+const CreateHeadLines = async (headline, snapshot_id) => {
+    await client.query(`INSERT INTO headline (value_text, snapshot_id) VALUES ($1, $2)`,
+        [headline, snapshot_id]);
+}
 module.exports = {
     StartProcesses: StartProcesses,
     Router: router
