@@ -25,3 +25,11 @@ CREATE TABLE headline (
         ON UPDATE NO ACTION
         ON DELETE CASCADE
 );
+
+CREATE TABLE users
+(
+    id serial PRIMARY KEY,
+    name character(255) NOT NULL,
+    email character varying(255) NOT NULL,
+    password text NOT NULL
+);
