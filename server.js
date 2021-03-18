@@ -50,7 +50,7 @@ app.post("/NewsSite/Create", checkAuthenticated, PostCreateNewsSite);
 app.delete('/NewsSite/Delete/:id', checkAuthenticated, DeleteNewsSites);
 app.get('/NewsSite/Update/:id', checkAuthenticated, GetUpdateNewsSitesForm);
 app.post('/NewsSite/Update/:id', checkAuthenticated, UpdateNewsSites);
-app.use('/admin/queues', checkAuthenticated, Router);
+app.use('/admin/queues', Router);
 
 StartProcesses();
 

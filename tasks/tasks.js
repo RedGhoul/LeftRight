@@ -70,16 +70,17 @@ async function StartProcesses() {
 
                     return;
                 })();
+                done();
             });
 
         });
-        done();
+
     });
     const myJob = await mainqq.add(
         { foo: 'bar' },
         {
             repeat: {
-                every: process.env.JOB_DELAY,
+                every: parseInt(process.env.JOB_DELAY),
             }
         }
     );
