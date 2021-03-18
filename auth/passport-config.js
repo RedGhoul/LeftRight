@@ -6,6 +6,9 @@ function initialize(passport) {
   const authenticateUser = async (email, password, done) => {
     user = client.query(`SELECT * FROM users WHERE email = $1;`, [email], (err, res) => {
       if (err) {
+        console.log(res);
+        console.log(err);
+        console.log('No user with that email');
         return done(null, false, { message: 'No user with that email' })
       }
       user = {
@@ -17,9 +20,12 @@ function initialize(passport) {
 
       bcrypt.compare(password, user.password, function (err, res) {
         if (err) {
+          console.log('Password incorrect');
           return done(null, false, { message: 'Password incorrect' })
 
         } else {
+          console.log('Worked');
+          console.log(user);
           return done(null, user)
         }
       })
@@ -31,7 +37,9 @@ function initialize(passport) {
   passport.use(new LocalStrategy({ usernameField: 'email' }, authenticateUser))
   passport.serializeUser((user, done) => done(null, user.id))
   passport.deserializeUser((id, done) => {
+
     client.query(`SELECT * FROM users WHERE id = $1;`, [id], (err, res) => {
+      console.log(res.rows[0]);
       return done(null, {
         id: res.rows[0].id,
         email: res.rows[0].email,

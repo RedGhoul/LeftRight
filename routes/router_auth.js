@@ -18,7 +18,7 @@ const PostRegister = async (req, res) => {
         const hashedPassword = await bcrypt.hash(req.body.password, 10)
         const res = await client.query(`INSERT INTO users (name, email, password)
         VALUES ($1, $2, $3);`, [req.body.name, req.body.email, hashedPassword]);
-        return res.redirect('/login');
+        return res.redirect("/NewsSite/All");
     } catch {
         return res.redirect('/register');
     }

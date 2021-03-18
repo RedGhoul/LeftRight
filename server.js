@@ -35,8 +35,8 @@ app.use(passport.session());
 app.use(methodOverride('_method'));
 app.use(addLoginFlag);
 app.get('/', GetHomePage);
-app.get('/login', checkNotAuthenticated, GetLoginPage);
-app.post('/login', checkNotAuthenticated, passport.authenticate('local', {
+app.get('/Login', checkNotAuthenticated, GetLoginPage);
+app.post('/Login', checkNotAuthenticated, passport.authenticate('local', {
   successRedirect: '/',
   failureRedirect: '/login',
   failureFlash: true
