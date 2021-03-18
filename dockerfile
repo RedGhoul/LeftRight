@@ -1,4 +1,4 @@
-FROM node:14
+FROM buildkite/puppeteer:latest
 
 WORKDIR /usr/src/app
 
