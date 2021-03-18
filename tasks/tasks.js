@@ -16,6 +16,7 @@ setQueues([
 ]);
 async function StartProcesses() {
     mainqq.process(function (job, done) {
+        console.log("StartProcesses")
         client.query(`SELECT * FROM newssite;`, (err, result) => {
             result.rows.forEach(element => {
                 (async () => {
