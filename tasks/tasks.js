@@ -10,7 +10,7 @@ const mainqq = new Queue('mainqq', {
         password: process.env.REDIS_PASSPORT
     }
 });
-const UpLoadFileImage = require('./tasks/uploader');
+const UpLoadFileImage = require('../tasks/uploader');
 require('dotenv').config()
 const { v4: uuidv4 } = require('uuid');
 setQueues([
