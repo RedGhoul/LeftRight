@@ -24,9 +24,14 @@ const UpLoadFileImage = (fileName) => {
     // Uploading files to the bucket
     s3.upload(params, function (err, data) {
         if (err) {
-            throw err;
+            //throw err;
         }
-        fs.unlinkSync(fileName);
+        try {
+            fs.unlinkSync(fileName);
+        } catch (error) {
+            console.log(`File was not deleted successfully. ${data.Location}`);
+        }
+
         console.log(`File uploaded successfully. ${data.Location}`);
     });
 }

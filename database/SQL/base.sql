@@ -20,6 +20,7 @@ CREATE TABLE headline (
     value_text text NOT NULL,
     created_on Date not null default CURRENT_DATE,
     snapshot_id INT NOT NULL,
+    value_text_sentiment text NOT NULL,
     CONSTRAINT headline_snapshot_id_fkey FOREIGN KEY (snapshot_id)
         REFERENCES snapshot (id) MATCH SIMPLE
         ON UPDATE NO ACTION
