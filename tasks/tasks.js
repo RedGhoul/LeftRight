@@ -22,6 +22,8 @@ async function StartProcesses() {
     mainqq.process(async function (job, done) {
 
         client.query(`SELECT * FROM newssite;`, (err, result) => {
+            console.log(result)
+            console.log(err)
             result.rows.forEach(element => {
                 (async () => {
                     const sentiment = new SentimentAnalyzer({ language: 'en' });
