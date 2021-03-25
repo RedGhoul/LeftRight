@@ -28,6 +28,7 @@ async function StartProcesses() {
                 (async () => {
                     const sentiment = new SentimentAnalyzer({ language: 'en' });
                     const browser = await puppeteer.launch({
+                        args: ['--no-sandbox'],
                         headless: true,
                         timeout: 100000
                     });
