@@ -92,7 +92,7 @@ async function StartProcesses() {
     });
     const myJob = await mainqq.add(
         { foo: 'bar' },
-        { repeat: { cron: '* * * * *' } }
+        { repeat: { cron: '*/30 * * * *' } }
     );
 
 }
