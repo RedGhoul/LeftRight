@@ -42,7 +42,7 @@ async function StartProcesses() {
                         await browser.close();
                         return;
                     }
-                    let fileName = `${element.name + new Date().toLocaleDateString("en-US").split('/').join('-')}.png`;
+                    let fileName = `${element.name + uuidv4() + new Date().toLocaleString().split('/').join('-')}.png`;
                     await page.screenshot({ path: fileName, fullPage: true })
                     await UpLoadFileImage(fileName);
                     let snapShotId = await CreateSnapShot(element.id, fileName);
