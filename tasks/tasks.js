@@ -22,8 +22,9 @@ async function StartProcesses() {
     mainqq.process(async function (job, done) {
 
         client.query(`SELECT * FROM newssite;`, (err, result) => {
-            console.log(result)
-            console.log(err)
+            if (err) {
+                return;
+            }
             result.rows.forEach(element => {
                 (async () => {
                     const sentiment = new SentimentAnalyzer({ language: 'en' });
@@ -91,7 +92,7 @@ async function StartProcesses() {
         done();
     });
     const myJob = await mainqq.add(
-        { foo: 'bar' },
+        { gettingallheadlines: 'gettingallheadlines' },
         { repeat: { cron: '*/30 * * * *' } }
     );
 
