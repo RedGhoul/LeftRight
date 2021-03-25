@@ -1,5 +1,5 @@
 const AWS = require('aws-sdk');
-const fs = require('fs');
+const fs = require('fs').promises;
 require('dotenv').config()
 AWS.config.update({ region: "us-east-1" });
 const spacesEndpoint = new AWS.Endpoint('https://nyc3.digitaloceanspaces.com');
@@ -10,8 +10,8 @@ const s3 = new AWS.S3({
     secretAccessKey: process.env.SPACES_SECRET
 });
 
-const UpLoadFileImage = (fileName) => {
-    const fileContent = fs.readFileSync(fileName);
+const UpLoadFileImage = async (fileName) => {
+    const fileContent = await fs.readFile(fileName);
 
     // Setting up S3 upload parameters
     const params = {
@@ -22,18 +22,8 @@ const UpLoadFileImage = (fileName) => {
     };
 
     // Uploading files to the bucket
-    s3.upload(params, function (err, data) {
-        if (err) {
-            //throw err;
-        }
-        try {
-            fs.unlinkSync(fileName);
-        } catch (error) {
-            console.log(`File was not deleted successfully. ${data.Location}`);
-        }
-
-        console.log(`File uploaded successfully. ${data.Location}`);
-    });
+    await s3.upload(params).promise()
+    await fs.unlink(fileName);
 }
 
 module.exports = UpLoadFileImage;

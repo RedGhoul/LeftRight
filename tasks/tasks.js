@@ -39,7 +39,10 @@ async function StartProcesses() {
                         await browser.close();
                         return;
                     }
-                    let snapShotId = await CreateSnapShot(element.id, '');
+                    let fileName = `${element.name + new Date().toLocaleDateString("en-US").split('/').join('-')}.png`;
+                    await page.screenshot({ path: fileName, fullPage: true })
+                    await UpLoadFileImage(fileName);
+                    let snapShotId = await CreateSnapShot(element.id, fileName);
                     const data = await page.evaluate(() => document.querySelector('*').outerHTML);
                     const $ = cheerio.load(data);
                     if (element.name === 'CNN') {
@@ -47,11 +50,9 @@ async function StartProcesses() {
                         for (i = 0; i < stuff.length; i++) {
                             if (stuff[i].children[0].data) {
                                 let headline = stuff[i].children[0].data;
-                                sentiment
-                                    .getSentiment(headline)
-                                    .then(async result => {
-                                        await CreateHeadLines(headline, result, snapShotId);
-                                    });
+                                let result = await sentiment.getSentiment(headline)
+                                await CreateHeadLines(headline, result, snapShotId);
+
                             }
                         }
                     } else if (element.name === 'HuffPost') {
@@ -59,11 +60,9 @@ async function StartProcesses() {
                         for (i = 0; i < stuff.length; i++) {
                             if (stuff[i].children[0].data) {
                                 let headline = stuff[i].children[0].data;
-                                sentiment
-                                    .getSentiment(headline)
-                                    .then(async result => {
-                                        await CreateHeadLines(headline, result, snapShotId);
-                                    });
+                                let result = await sentiment.getSentiment(headline)
+                                await CreateHeadLines(headline, result, snapShotId);
+
                             }
                         }
                     } else if (element.name === 'Fox') {
@@ -71,20 +70,13 @@ async function StartProcesses() {
                         for (i = 0; i < stuff.length; i++) {
                             if (stuff[i].children[0].children[0].data) {
                                 let headline = stuff[i].children[0].children[0].data;
-                                sentiment
-                                    .getSentiment(headline)
-                                    .then(async result => {
-                                        await CreateHeadLines(headline, result, snapShotId);
-                                    });
+                                let result = await sentiment.getSentiment(headline)
+                                await CreateHeadLines(headline, result, snapShotId);
 
                             }
                         }
                     }
-                    // let fileName = `${element.name + new Date().toLocaleDateString("en-US").split('/').join('-')}.png`;
-                    // await page.screenshot({ path: fileName, fullPage: true })
-                    //     .then((result) => {
-                    //         UpLoadFileImage(fileName);
-                    //     });
+
                     await browser.close();
 
                     return;
