@@ -20,10 +20,14 @@ const UpLoadFileImage = async (fileName) => {
         Body: fileContent,
         ACL: "private"
     };
+    try {
+        // Uploading files to the bucket
+        await s3.upload(params).promise()
+        await fs.unlink(fileName);
+    } catch (error) {
+        console.log("Failed to upload")
+    }
 
-    // Uploading files to the bucket
-    await s3.upload(params).promise()
-    await fs.unlink(fileName);
 }
 
 module.exports = UpLoadFileImage;

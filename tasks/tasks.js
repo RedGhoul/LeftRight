@@ -20,13 +20,15 @@ setQueues([
 ]);
 async function StartProcesses() {
     mainqq.process(async function (job, done) {
-
-        client.query(`SELECT * FROM newssite;`, (err, result) => {
+        client.query(`SELECT * FROM newssite;`).then(async (result, err) => {
             if (err) {
                 return;
             }
-            result.rows.forEach(element => {
-                (async () => {
+            for (let index = 0; index < result.rows.length; index++) {
+                try {
+                    const element = result.rows[index];
+                    console.log("Processing");
+                    console.log(element);
                     const sentiment = new SentimentAnalyzer({ language: 'en' });
                     const browser = await puppeteer.launch({
                         args: ['--no-sandbox'],
@@ -34,16 +36,17 @@ async function StartProcesses() {
                         timeout: 100000
                     });
                     const page = await browser.newPage();
-
+                    console.log("const page = await browser.newPage();");
                     try {
                         await page.goto(element.url, {
                             waitUntil: 'networkidle2'
                         });
                     } catch (error) {
+                        console.log(error);
                         await browser.close();
                         return;
                     }
-                    let fileName = `${element.name + uuidv4() + new Date().toLocaleString().split('/').join('-')}.png`;
+                    let fileName = `${element.name + uuidv4()}.png`;
                     await page.screenshot({ path: fileName, fullPage: true })
                     await UpLoadFileImage(fileName);
                     let snapShotId = await CreateSnapShot(element.id, fileName);
@@ -82,14 +85,17 @@ async function StartProcesses() {
                     }
 
                     await browser.close();
-
+                    console.log("await browser.close();");
+                    console.log("Completed " + element.name);
                     return;
-                })();
-
-            });
-
+                } catch (error) {
+                    console.log("Error Occured");
+                    console.log(error)
+                }
+            }
+            done();
         });
-        done();
+
     });
     const myJob = await mainqq.add(
         { gettingallheadlines: 'gettingallheadlines' },
