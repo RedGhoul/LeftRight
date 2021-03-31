@@ -87,12 +87,12 @@ async function StartProcesses() {
                     await browser.close();
                     console.log("await browser.close();");
                     console.log("Completed " + element.name);
-                    return;
                 } catch (error) {
                     console.log("Error Occured");
                     console.log(error)
                 }
             }
+            console.log("Done Job Exiting");
             done();
         });
 
