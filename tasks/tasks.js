@@ -30,12 +30,15 @@ async function StartProcesses() {
                     console.log("Processing");
                     console.log(element);
                     const sentiment = new SentimentAnalyzer({ language: 'en' });
+
                     const browser = await puppeteer.launch({
                         args: ['--no-sandbox'],
-                        headless: true,
-                        timeout: 100000
+                        headless: true
                     });
                     const page = await browser.newPage();
+
+                    await page.setDefaultNavigationTimeout(0);
+
                     console.log("const page = await browser.newPage();");
                     try {
                         await page.goto(element.url, {
