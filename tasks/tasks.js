@@ -58,32 +58,50 @@ async function StartProcesses() {
                     if (element.name === 'CNN') {
                         const stuff = $(".cd__headline-text");
                         for (i = 0; i < stuff.length; i++) {
-                            if (stuff[i].children[0].data) {
-                                let headline = stuff[i].children[0].data;
-                                let result = await sentiment.getSentiment(headline)
-                                await CreateHeadLines(headline, result, snapShotId);
+                            try {
+                                if (stuff[i].children[0].data) {
+                                    let headline = stuff[i].children[0].data;
+                                    let result = await sentiment.getSentiment(headline)
+                                    await CreateHeadLines(headline, result, snapShotId);
 
+                                }
+                            } catch (error) {
+                                console.log("Error found in CNN");
+                                console.log(error);
                             }
+
                         }
                     } else if (element.name === 'HuffPost') {
                         const stuff = $(".card__headline__text");
                         for (i = 0; i < stuff.length; i++) {
-                            if (stuff[i].children[0].data) {
-                                let headline = stuff[i].children[0].data;
-                                let result = await sentiment.getSentiment(headline)
-                                await CreateHeadLines(headline, result, snapShotId);
+                            try {
+                                if (stuff[i].children[0].data) {
+                                    let headline = stuff[i].children[0].data;
+                                    let result = await sentiment.getSentiment(headline)
+                                    await CreateHeadLines(headline, result, snapShotId);
 
+                                }
+                            } catch (error) {
+                                console.log("Error found in HuffPost");
+                                console.log(error);
                             }
+
                         }
                     } else if (element.name === 'Fox') {
                         const stuff = $(".title.title-color-default");
                         for (i = 0; i < stuff.length; i++) {
-                            if (stuff[i].children[0].children[0].data) {
-                                let headline = stuff[i].children[0].children[0].data;
-                                let result = await sentiment.getSentiment(headline)
-                                await CreateHeadLines(headline, result, snapShotId);
+                            try {
+                                if (stuff[i].children[0].children[0].data) {
+                                    let headline = stuff[i].children[0].children[0].data;
+                                    let result = await sentiment.getSentiment(headline)
+                                    await CreateHeadLines(headline, result, snapShotId);
 
+                                }
+                            } catch (error) {
+                                console.log("Error found in Fox");
+                                console.log(error);
                             }
+
                         }
                     }
 
