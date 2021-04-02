@@ -4,6 +4,10 @@ CREATE TABLE newssite (
 	url VARCHAR ( 600 ) NOT NULL,
 	created_on timestamp not null default NOW()::timestamp
 );
+CREATE INDEX idx_newssite_created_on ON newssite(created_on);
+CREATE INDEX idx_newssite_name ON newssite(name);
+CREATE INDEX idx_newssite_url ON newssite(url);
+
 CREATE TABLE snapshot (
 	id serial PRIMARY KEY,
 	imageurl VARCHAR ( 600 ) NOT NULL,
@@ -14,6 +18,9 @@ CREATE TABLE snapshot (
         ON UPDATE NO ACTION
         ON DELETE CASCADE
 );
+CREATE INDEX idx_snapshot_created_on ON snapshot(created_on);
+CREATE INDEX idx_snapshot_imageurl ON snapshot(imageurl);
+CREATE INDEX idx_snapshot_newssite_id ON snapshot(newssite_id);
 
 CREATE TABLE headline (
     id serial PRIMARY KEY,
@@ -26,6 +33,9 @@ CREATE TABLE headline (
         ON UPDATE NO ACTION
         ON DELETE CASCADE
 );
+CREATE INDEX idx_headline_created_on ON headline(created_on);
+CREATE INDEX idx_headline_value_text ON headline(value_text);
+CREATE INDEX idx_headline_value_text_sentiment ON headline(value_text_sentiment);
 
 CREATE TABLE users
 (

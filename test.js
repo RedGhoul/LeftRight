@@ -89,11 +89,28 @@ client.query(`SELECT * FROM newssite;`).then(async (result, err) => {
 
                 }
             } else if (element.name === 'FT') {
-                const stuff = $(".js-teaser-heading-link");
+                // const stuff = $(".js-teaser-heading-link");
+                // for (i = 0; i < stuff.length; i++) {
+                //     try {
+                //         if (stuff[i].children[0].data) {
+                //             let headline = stuff[i].children[0].data;
+                //             let result = await sentiment.getSentiment(headline)
+                //             await CreateHeadLines(headline, result, snapShotId);
+
+                //         }
+                //     } catch (error) {
+                //         console.log("Error found in Fox");
+                //         console.log(error);
+                //     }
+
+                // }
+            }
+            else if (element.name === 'BBC') {
+                const stuff = $(".media__link");
                 for (i = 0; i < stuff.length; i++) {
                     try {
                         if (stuff[i].children[0].data) {
-                            let headline = stuff[i].children[0].data;
+                            let headline = stuff[i].children[0].data.trim();
                             let result = await sentiment.getSentiment(headline)
                             await CreateHeadLines(headline, result, snapShotId);
 
