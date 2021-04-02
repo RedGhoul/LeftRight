@@ -114,7 +114,7 @@ async function StartProcesses() {
 
                                 }
                             } catch (error) {
-                                console.log("Error found in Fox");
+                                console.log("Error found in FT");
                                 console.log(error);
                             }
 
@@ -130,7 +130,23 @@ async function StartProcesses() {
 
                                 }
                             } catch (error) {
-                                console.log("Error found in Fox");
+                                console.log("Error found in BBC");
+                                console.log(error);
+                            }
+
+                        }
+                    } else if (element.name === 'washingtonpost') {
+                        const stuff = $(".font--headline");
+                        for (i = 0; i < stuff.length; i++) {
+                            try {
+                                if (stuff[i].children[0].children[0].children[0].data) {
+                                    let headline = stuff[i].children[0].children[0].children[0].data.trim();
+                                    let result = await sentiment.getSentiment(headline)
+                                    await CreateHeadLines(headline, result, snapShotId);
+
+                                }
+                            } catch (error) {
+                                console.log("Error found in washingtonpost");
                                 console.log(error);
                             }
 
