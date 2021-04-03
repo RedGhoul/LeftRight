@@ -54,7 +54,7 @@ async function StartProcesses() {
                             console.log("Happend during await page.goto(element.url");
                             console.log(error);
                             await browser.close();
-                            return;
+                            continue;
                         }
                         let fileName = `${element.name + uuidv4()}.png`;
                         await page.screenshot({ path: fileName, fullPage: true })
@@ -204,8 +204,9 @@ async function StartProcesses() {
         } catch (error) {
             console.log("Big Error Done");
             console.log(error);
+            done();
         }
-
+        done();
     });
     const myJob = await mainqq.add(
         { gettingallheadlines: 'gettingallheadlines' },
