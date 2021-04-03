@@ -20,6 +20,12 @@ setQueues([
 ]);
 async function StartProcesses() {
     mainqq.process(async function (job, done) {
+        try {
+
+        } catch (error) {
+            console.log("Big Error Done");
+            console.log(error);
+        }
         client.query(`SELECT * FROM newssite;`).then(async (result, err) => {
             if (err) {
                 return;
@@ -189,7 +195,12 @@ async function StartProcesses() {
     });
     const myJob = await mainqq.add(
         { gettingallheadlines: 'gettingallheadlines' },
-        { repeat: { cron: '*/30 * * * *' } }
+        {
+            attempts: 3,
+            backoff: {
+                type: 'jitter'
+            }, repeat: { cron: '*/30 * * * *' }
+        }
     );
 
 }

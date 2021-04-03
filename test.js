@@ -128,7 +128,7 @@ client.query(`SELECT * FROM newssite;`).then(async (result, err) => {
                         console.log(stuff[i])
                         if (stuff[i].children[0].children[0].children[0].data) {
                             let headline = stuff[i].children[0].children[0].children[0].data.trim();
-                            let result = await sentiment.getSentiment(headline)
+                            //let result = await sentiment.getSentiment(headline)
                             await CreateHeadLines(headline, result, snapShotId);
 
                         } else if (stuff[i].children[0].children[0].data) {
