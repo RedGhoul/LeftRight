@@ -50,8 +50,8 @@ app.post("/NewsSite/Create", checkAuthenticated, PostCreateNewsSite);
 app.delete('/NewsSite/Delete/:id', checkAuthenticated, DeleteNewsSites);
 app.get('/NewsSite/Update/:id', checkAuthenticated, GetUpdateNewsSitesForm);
 app.post('/NewsSite/Update/:id', checkAuthenticated, UpdateNewsSites);
-app.use('/admin/queues', Router);
-process.setMaxListeners(0);
+app.use('/admin/queues', checkAuthenticated, Router);
+
 StartProcesses();
 
 app.listen(process.env.PORT, '0.0.0.0', () => {
