@@ -32,19 +32,25 @@ async function StartProcesses() {
                     const sentiment = new SentimentAnalyzer({ language: 'en' });
 
                     const browser = await puppeteer.launch({
-                        args: ['--no-sandbox'],
+                        args: ['--disable-gpu',
+                            '--disable-dev-shm-usage',
+                            '--disable-setuid-sandbox',
+                            '--no-first-run',
+                            '--no-sandbox',
+                            '--no-zygote',
+                            '--single-process'],
                         headless: true
                     });
                     const page = await browser.newPage();
 
                     await page.setDefaultNavigationTimeout(0);
 
-                    console.log("const page = await browser.newPage();");
                     try {
                         await page.goto(element.url, {
                             waitUntil: 'networkidle2'
                         });
                     } catch (error) {
+                        console.log("Happend during await page.goto(element.url");
                         console.log(error);
                         await browser.close();
                         return;
@@ -54,6 +60,11 @@ async function StartProcesses() {
                     await UpLoadFileImage(fileName);
                     let snapShotId = await CreateSnapShot(element.id, fileName);
                     const data = await page.evaluate(() => document.querySelector('*').outerHTML);
+                    if (!data) {
+                        console.log("Data was none");
+                        console.log(data);
+                        return;
+                    }
                     const $ = cheerio.load(data);
                     if (element.name === 'CNN') {
                         const stuff = $(".cd__headline-text");
@@ -66,6 +77,7 @@ async function StartProcesses() {
 
                                 }
                             } catch (error) {
+                                console.log("Happend in For Loop");
                                 console.log("Error found in CNN");
                                 console.log(error);
                             }
@@ -82,6 +94,7 @@ async function StartProcesses() {
 
                                 }
                             } catch (error) {
+                                console.log("Happend in For Loop");
                                 console.log("Error found in HuffPost");
                                 console.log(error);
                             }
@@ -98,6 +111,7 @@ async function StartProcesses() {
 
                                 }
                             } catch (error) {
+                                console.log("Happend in For Loop");
                                 console.log("Error found in Fox");
                                 console.log(error);
                             }
@@ -114,6 +128,7 @@ async function StartProcesses() {
 
                                 }
                             } catch (error) {
+                                console.log("Happend in For Loop");
                                 console.log("Error found in FT");
                                 console.log(error);
                             }
@@ -130,6 +145,7 @@ async function StartProcesses() {
 
                                 }
                             } catch (error) {
+                                console.log("Happend in For Loop");
                                 console.log("Error found in BBC");
                                 console.log(error);
                             }
@@ -150,6 +166,7 @@ async function StartProcesses() {
                                     await CreateHeadLines(headline, result, snapShotId);
                                 }
                             } catch (error) {
+                                console.log("Happend in For Loop");
                                 console.log("Error found in washingtonpost");
                                 console.log(error);
                             }
