@@ -144,6 +144,10 @@ async function StartProcesses() {
                                     let result = await sentiment.getSentiment(headline)
                                     await CreateHeadLines(headline, result, snapShotId);
 
+                                } else if (stuff[i].children[0].children[0].data) {
+                                    let headline = stuff[i].children[0].children[0].data.trim();
+                                    let result = await sentiment.getSentiment(headline)
+                                    await CreateHeadLines(headline, result, snapShotId);
                                 }
                             } catch (error) {
                                 console.log("Error found in washingtonpost");
