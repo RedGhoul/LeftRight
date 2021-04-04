@@ -44,7 +44,7 @@ async function StartProcesses() {
                         });
                         const page = await browser.newPage();
 
-                        await page.setDefaultNavigationTimeout(20000);
+                        await page.setDefaultNavigationTimeout(90000);
 
                         try {
                             await page.goto(element.url, {
