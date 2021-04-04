@@ -22,21 +22,6 @@ async function StartProcesses() {
     mainqq.process(async function (job, done) {
         try {
             client.query(`SELECT * FROM newssite;`).then(async (result, err) => {
-
-                const browser = await puppeteer.launch({
-                    args: ['--disable-gpu',
-                        '--disable-dev-shm-usage',
-                        '--disable-setuid-sandbox',
-                        '--no-first-run',
-                        '--no-sandbox',
-                        '--no-zygote',
-                        '--single-process'],
-                    headless: true
-                });
-                const page = await browser.newPage();
-
-                await page.setDefaultNavigationTimeout(0);
-
                 if (err) {
                     return;
                 }
@@ -47,6 +32,19 @@ async function StartProcesses() {
                         console.log(element);
                         const sentiment = new SentimentAnalyzer({ language: 'en' });
 
+                        const browser = await puppeteer.launch({
+                            args: ['--disable-gpu',
+                                '--disable-dev-shm-usage',
+                                '--disable-setuid-sandbox',
+                                '--no-first-run',
+                                '--no-sandbox',
+                                '--no-zygote',
+                                '--single-process'],
+                            headless: true
+                        });
+                        const page = await browser.newPage();
+
+                        await page.setDefaultNavigationTimeout(0);
 
                         try {
                             await page.goto(element.url, {
@@ -191,6 +189,7 @@ async function StartProcesses() {
                             }
                         }
 
+                        await browser.close();
                         console.log("await browser.close();");
                         console.log("Completed " + element.name);
                     } catch (error) {
@@ -199,7 +198,6 @@ async function StartProcesses() {
                     }
                 }
                 console.log("Done Job Exiting");
-                await browser.close();
                 done();
             });
 
