@@ -191,7 +191,6 @@ async function StartProcesses() {
                             }
                         }
 
-                        await browser.close();
                         console.log("await browser.close();");
                         console.log("Completed " + element.name);
                     } catch (error) {
