@@ -154,38 +154,27 @@ async function StartProcesses() {
                             }
                         } else if (element.name === 'washingtonpost') {
                             const stuff = $(".font--headline");
+                            console.log(stuff);
+                            if (!stuff) {
+                                console.log("Error occured in washingtonpost for loop");
+                                console.log(stuff);
+                                continue;
+                            }
                             for (i = 0; i < stuff.length; i++) {
                                 try {
-                                    if (stuff[i].children[0].children[0].children[0].data) {
+                                    if (stuff[i] || stuff[i].children || stuff[i].children[0].children[0].children[0].data) {
                                         let headline = stuff[i].children[0].children[0].children[0].data.trim();
                                         let result = await sentiment.getSentiment(headline)
                                         await CreateHeadLines(headline, result, snapShotId);
                                     }
 
                                 } catch (error) {
-                                    if (stuff[i].children[0].children[0].children[0].data) {
-                                        console.log(stuff[i].children[0].children[0].children[0].data);
-                                    }
-
                                     console.log("Happend in For Loop - stuff[i].children[0].children[0].children[0].data");
                                     console.log("Error found in washingtonpost");
                                     console.log(error);
                                 }
 
-                                try {
-                                    if (stuff[i].children[0].children[0].data) {
-                                        let headline = stuff[i].children[0].children[0].data.trim();
-                                        let result = await sentiment.getSentiment(headline)
-                                        await CreateHeadLines(headline, result, snapShotId);
-                                    }
-                                } catch (error) {
-                                    if (stuff[i].children[0].children[0].data) {
-                                        console.log(stuff[i].children[0].children[0].data);
-                                    }
-                                    console.log("Happend in For Loop - stuff[i].children[0].children[0].data");
-                                    console.log("Error found in washingtonpost");
-                                    console.log(error);
-                                }
+
                             }
                         }
 
@@ -214,7 +203,7 @@ async function StartProcesses() {
             attempts: 3,
             backoff: {
                 type: 'jitter'
-            }, repeat: { cron: '*/30 * * * *' }
+            }, repeat: { cron: '*/70 * * * *' }
         }
     );
 
