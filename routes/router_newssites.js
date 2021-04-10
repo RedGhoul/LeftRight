@@ -1,6 +1,9 @@
 const client = require('../database/database');
 const puppeteer = require('puppeteer');
 const cheerio = require('cheerio');
+const { v4: uuidv4 } = require('uuid');
+const UpLoadFileImage = require('../tasks/uploader');
+require('dotenv').config();
 
 const GetHeadLine = async (req, res) => {
     let Name = req.body.Name;
@@ -32,7 +35,11 @@ const GetHeadLine = async (req, res) => {
         return res.json({ error: error });
     }
 
+    let fileName = `${element.name + uuidv4()}.png`;
+    await page.screenshot({ path: fileName, fullPage: true })
+    await UpLoadFileImage(fileName);
     const data = await page.evaluate(() => document.querySelector('*').outerHTML);
+
     if (!data) {
         console.log("Data was none");
         console.log(data);
@@ -144,7 +151,10 @@ const GetHeadLine = async (req, res) => {
     }
 
     await browser.close();
-    return res.json({ HeadLines: listOfHeadLines });
+    return res.json({
+        photoIdName: fileName,
+        HeadLines: listOfHeadLines
+    });
 }
 
 
