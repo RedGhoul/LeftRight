@@ -35,7 +35,7 @@ const GetHeadLine = async (req, res) => {
         return res.json({ error: error });
     }
 
-    let fileName = `${element.name + uuidv4()}.png`;
+    let fileName = `${Name + uuidv4()}.png`;
     await page.screenshot({ path: fileName, fullPage: true })
     await UpLoadFileImage(fileName);
     const data = await page.evaluate(() => document.querySelector('*').outerHTML);
