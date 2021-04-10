@@ -151,9 +151,10 @@ const GetHeadLine = async (req, res) => {
         }
     } catch (error) {
         console.log(error);
+        console.log("Got out of the error");
     }
 
-
+    console.log("Got to await browser.close();");
     await browser.close();
     return res.json({
         photoIdName: fileName,
