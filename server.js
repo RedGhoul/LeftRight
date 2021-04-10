@@ -18,7 +18,7 @@ app.use(express.urlencoded({ extended: false }));
 
 app.use(methodOverride('_method'));
 
-app.post('/headline', checkNotAuthenticated, GetHeadLine);
+app.post('/headline', GetHeadLine);
 
 app.listen(process.env.PORT, '0.0.0.0', () => {
   console.log("Connected ! " + process.env.PORT + ' 0.0.0.0');
