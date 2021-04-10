@@ -50,105 +50,110 @@ const GetHeadLine = async (req, res) => {
     const $ = cheerio.load(data);
 
     let listOfHeadLines = []
-    if (Name === 'CNN') {
-        const stuff = $(".cd__headline-text");
-        for (i = 0; i < stuff.length; i++) {
-            try {
-                if (stuff[i].children[0].data) {
-                    let headline = stuff[i].children[0].data.trim();
-                    listOfHeadLines.push(headline);
+    try {
+        if (Name === 'CNN') {
+            const stuff = $(".cd__headline-text");
+            for (i = 0; i < stuff.length; i++) {
+                try {
+                    if (stuff[i].children[0].data) {
+                        let headline = stuff[i].children[0].data.trim();
+                        listOfHeadLines.push(headline);
 
+                    }
+                } catch (error) {
+                    console.log("Happend in For Loop");
+                    console.log("Error found in CNN");
+                    console.log(error);
                 }
-            } catch (error) {
-                console.log("Happend in For Loop");
-                console.log("Error found in CNN");
-                console.log(error);
+
             }
+        } else if (Name === 'HuffPost') {
+            const stuff = $(".card__headline__text");
+            for (i = 0; i < stuff.length; i++) {
+                try {
+                    if (stuff[i].children[0].data) {
+                        let headline = stuff[i].children[0].data.trim();
 
-        }
-    } else if (Name === 'HuffPost') {
-        const stuff = $(".card__headline__text");
-        for (i = 0; i < stuff.length; i++) {
-            try {
-                if (stuff[i].children[0].data) {
-                    let headline = stuff[i].children[0].data.trim();
-
+                    }
+                } catch (error) {
+                    console.log("Happend in For Loop");
+                    console.log("Error found in HuffPost");
+                    console.log(error);
                 }
-            } catch (error) {
-                console.log("Happend in For Loop");
-                console.log("Error found in HuffPost");
-                console.log(error);
+
             }
+        } else if (Name === 'Fox') {
+            const stuff = $(".title.title-color-default");
+            for (i = 0; i < stuff.length; i++) {
+                try {
+                    if (stuff[i].children[0].children[0].data) {
+                        let headline = stuff[i].children[0].children[0].data.trim();
 
-        }
-    } else if (Name === 'Fox') {
-        const stuff = $(".title.title-color-default");
-        for (i = 0; i < stuff.length; i++) {
-            try {
-                if (stuff[i].children[0].children[0].data) {
-                    let headline = stuff[i].children[0].children[0].data.trim();
-
+                    }
+                } catch (error) {
+                    console.log("Happend in For Loop");
+                    console.log("Error found in Fox");
+                    console.log(error);
                 }
-            } catch (error) {
-                console.log("Happend in For Loop");
-                console.log("Error found in Fox");
-                console.log(error);
+
             }
+        } else if (Name === 'FT') {
+            const stuff = $(".js-teaser-heading-link");
+            for (i = 0; i < stuff.length; i++) {
+                try {
+                    if (stuff[i].children[0].data) {
+                        let headline = stuff[i].children[0].data.trim();
 
-        }
-    } else if (Name === 'FT') {
-        const stuff = $(".js-teaser-heading-link");
-        for (i = 0; i < stuff.length; i++) {
-            try {
-                if (stuff[i].children[0].data) {
-                    let headline = stuff[i].children[0].data.trim();
-
+                    }
+                } catch (error) {
+                    console.log("Happend in For Loop");
+                    console.log("Error found in FT");
+                    console.log(error);
                 }
-            } catch (error) {
-                console.log("Happend in For Loop");
-                console.log("Error found in FT");
-                console.log(error);
+
             }
+        } else if (Name === 'BBC') {
+            const stuff = $(".media__link");
+            for (i = 0; i < stuff.length; i++) {
+                try {
+                    if (stuff[i].children[0].data) {
+                        let headline = stuff[i].children[0].data.trim();
 
-        }
-    } else if (Name === 'BBC') {
-        const stuff = $(".media__link");
-        for (i = 0; i < stuff.length; i++) {
-            try {
-                if (stuff[i].children[0].data) {
-                    let headline = stuff[i].children[0].data.trim();
-
+                    }
+                } catch (error) {
+                    console.log("Happend in For Loop");
+                    console.log("Error found in BBC");
+                    console.log(error);
                 }
-            } catch (error) {
-                console.log("Happend in For Loop");
-                console.log("Error found in BBC");
-                console.log(error);
-            }
 
-        }
-    } else if (Name === 'washingtonpost') {
-        const stuff = $(".font--headline");
-        console.log(stuff);
-        if (!stuff) {
-            console.log("Error occured in washingtonpost for loop");
+            }
+        } else if (Name === 'washingtonpost') {
+            const stuff = $(".font--headline");
             console.log(stuff);
-            return res.json({ error: "error" });
-        }
-        for (i = 0; i < stuff.length; i++) {
-            try {
-                if (stuff[i] || stuff[i].children || stuff[i].children[0].children[0].children[0].data) {
-                    let headline = stuff[i].children[0].children[0].children[0].data.trim();
+            if (!stuff) {
+                console.log("Error occured in washingtonpost for loop");
+                console.log(stuff);
+                return res.json({ error: "error" });
+            }
+            for (i = 0; i < stuff.length; i++) {
+                try {
+                    if (stuff[i] || stuff[i].children || stuff[i].children[0].children[0].children[0].data) {
+                        let headline = stuff[i].children[0].children[0].children[0].data.trim();
+                    }
+
+                } catch (error) {
+                    console.log("Happend in For Loop - stuff[i].children[0].children[0].children[0].data");
+                    console.log("Error found in washingtonpost");
+                    console.log(error);
                 }
 
-            } catch (error) {
-                console.log("Happend in For Loop - stuff[i].children[0].children[0].children[0].data");
-                console.log("Error found in washingtonpost");
-                console.log(error);
+
             }
-
-
         }
+    } catch (error) {
+        console.log(error);
     }
+
 
     await browser.close();
     return res.json({
