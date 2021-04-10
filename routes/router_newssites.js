@@ -73,7 +73,7 @@ const GetHeadLine = async (req, res) => {
                 try {
                     if (stuff[i].children[0].data) {
                         let headline = stuff[i].children[0].data.trim();
-
+                        listOfHeadLines.push(headline);
                     }
                 } catch (error) {
                     console.log("Happend in For Loop");
@@ -88,7 +88,7 @@ const GetHeadLine = async (req, res) => {
                 try {
                     if (stuff[i].children[0].children[0].data) {
                         let headline = stuff[i].children[0].children[0].data.trim();
-
+                        listOfHeadLines.push(headline);
                     }
                 } catch (error) {
                     console.log("Happend in For Loop");
@@ -103,7 +103,7 @@ const GetHeadLine = async (req, res) => {
                 try {
                     if (stuff[i].children[0].data) {
                         let headline = stuff[i].children[0].data.trim();
-
+                        listOfHeadLines.push(headline);
                     }
                 } catch (error) {
                     console.log("Happend in For Loop");
@@ -118,7 +118,7 @@ const GetHeadLine = async (req, res) => {
                 try {
                     if (stuff[i].children[0].data) {
                         let headline = stuff[i].children[0].data.trim();
-
+                        listOfHeadLines.push(headline);
                     }
                 } catch (error) {
                     console.log("Happend in For Loop");
@@ -129,7 +129,6 @@ const GetHeadLine = async (req, res) => {
             }
         } else if (Name === 'washingtonpost') {
             const stuff = $(".font--headline");
-            console.log(stuff);
             if (!stuff) {
                 console.log("Error occured in washingtonpost for loop");
                 console.log(stuff);
@@ -139,8 +138,8 @@ const GetHeadLine = async (req, res) => {
                 try {
                     if (stuff[i] || stuff[i].children || stuff[i].children[0].children[0].children[0].data) {
                         let headline = stuff[i].children[0].children[0].children[0].data.trim();
+                        listOfHeadLines.push(headline);
                     }
-
                 } catch (error) {
                     console.log("Happend in For Loop - stuff[i].children[0].children[0].children[0].data");
                     console.log("Error found in washingtonpost");
