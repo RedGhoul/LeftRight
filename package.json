@@ -9,27 +9,27 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "aws-sdk": "^2.863.0",
+    "aws-sdk": "^2.903.0",
     "bcryptjs": "^2.4.3",
-    "bull": "^3.20.1",
-    "bull-board": "^1.4.1",
-    "cheerio": "^1.0.0-rc.5",
-    "ejs": "^2.6.2",
+    "bull": "^3.22.4",
+    "bull-board": "^1.7.2",
+    "cheerio": "^1.0.0-rc.9",
+    "ejs": "^2.7.4",
     "express": "^4.17.1",
     "express-flash": "0.0.2",
-    "express-session": "^1.16.2",
+    "express-session": "^1.17.1",
     "method-override": "^3.0.0",
-    "node-nlp": "^4.21.3",
-    "passport": "^0.4.0",
+    "node-nlp": "^4.22.1",
+    "passport": "^0.4.1",
     "passport-local": "^1.0.0",
-    "pg": "^8.5.1",
+    "pg": "^8.6.0",
     "pg-hstore": "^2.3.3",
     "puppeteer": "^8.0.0",
-    "sequelize": "^6.5.0",
+    "sequelize": "^6.6.2",
     "uuid": "^8.3.2"
   },
   "devDependencies": {
-    "dotenv": "^8.0.0",
+    "dotenv": "^8.6.0",
     "nodemon": "^2.0.7"
   }
 }
