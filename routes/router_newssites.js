@@ -3,6 +3,7 @@ const puppeteer = require('puppeteer');
 const cheerio = require('cheerio');
 const { v4: uuidv4 } = require('uuid');
 const UpLoadFileImage = require('../tasks/uploader');
+const UserAgent = require('user-agents');
 require('dotenv').config();
 
 const GetHeadLine = async (req, res) => {
@@ -11,6 +12,7 @@ const GetHeadLine = async (req, res) => {
     if (!Name || !URL) {
         return res.json({ error: "error" });
     }
+    UserAgentObj = new UserAgent();
 
     const browser = await puppeteer.launch({
         args: ['--disable-gpu',
@@ -23,6 +25,11 @@ const GetHeadLine = async (req, res) => {
         headless: true
     });
     const page = await browser.newPage();
+    values = UserAgentObj.toString();
+    console.log("Using the following user agent");
+    page.setUserAgent(
+        values
+    );
 
     await page.setDefaultNavigationTimeout(90000);
 

@@ -26,6 +26,7 @@
     "pg-hstore": "^2.3.3",
     "puppeteer": "^8.0.0",
     "sequelize": "^6.6.2",
+    "user-agents": "^1.0.652",
     "uuid": "^8.3.2"
   },
   "devDependencies": {
