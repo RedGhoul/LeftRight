@@ -84,6 +84,7 @@ async function StartProcesses() {
                                 }
 
                             }
+                            console.log("Done CNN");
                         } else if (element.name === 'HuffPost') {
                             const stuff = $(".card__headline__text");
                             for (i = 0; i < stuff.length; i++) {
@@ -101,6 +102,7 @@ async function StartProcesses() {
                                 }
 
                             }
+                            console.log("Done HuffPost");
                         } else if (element.name === 'Fox') {
                             const stuff = $(".title.title-color-default");
                             for (i = 0; i < stuff.length; i++) {
@@ -118,6 +120,7 @@ async function StartProcesses() {
                                 }
 
                             }
+                            console.log("Done Fox");
                         } else if (element.name === 'FT') {
                             const stuff = $(".js-teaser-heading-link");
                             for (i = 0; i < stuff.length; i++) {

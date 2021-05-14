@@ -67,6 +67,7 @@ const GetHeadLine = async (req, res) => {
                 }
 
             }
+            console.log("Done CNN");
         } else if (Name === 'HuffPost') {
             const stuff = $(".card__headline__text");
             for (i = 0; i < stuff.length; i++) {
@@ -82,6 +83,9 @@ const GetHeadLine = async (req, res) => {
                 }
 
             }
+            console.log("Following will be sent for Huffpost");
+            console.log(listOfHeadLines);
+            console.log("Done HuffPost");
         } else if (Name === 'Fox') {
             const stuff = $(".title.title-color-default");
             for (i = 0; i < stuff.length; i++) {
@@ -97,6 +101,7 @@ const GetHeadLine = async (req, res) => {
                 }
 
             }
+            console.log("Done Fox");
         } else if (Name === 'FT') {
             const stuff = $(".js-teaser-heading-link");
             for (i = 0; i < stuff.length; i++) {
@@ -112,6 +117,7 @@ const GetHeadLine = async (req, res) => {
                 }
 
             }
+            console.log("Done Fox");
         } else if (Name === 'BBC') {
             const stuff = $(".media__link");
             for (i = 0; i < stuff.length; i++) {
@@ -127,6 +133,7 @@ const GetHeadLine = async (req, res) => {
                 }
 
             }
+            console.log("Done BBC");
         } else if (Name === 'washingtonpost') {
             const stuff = $(".font--headline");
             if (!stuff) {
@@ -148,6 +155,7 @@ const GetHeadLine = async (req, res) => {
 
 
             }
+            console.log("Done washingtonpost");
         }
     } catch (error) {
         console.log(error);
@@ -156,6 +164,11 @@ const GetHeadLine = async (req, res) => {
 
     console.log("Got to await browser.close();");
     await browser.close();
+    console.log("Sending the following back");
+    console.log({
+        photoIdName: fileName,
+        HeadLines: listOfHeadLines
+    });
     return res.json({
         photoIdName: fileName,
         HeadLines: listOfHeadLines
