@@ -4,7 +4,7 @@ if (process.env.NODE_ENV !== 'production') {
 
 const express = require('express');
 const app = express();
-
+const schedule = require('node-schedule');
 const passport = require('passport');
 const flash = require('express-flash');
 const session = require('express-session');
@@ -57,6 +57,12 @@ app.delete('/NewsSite/Delete/:id', checkAuthenticated, DeleteNewsSites);
 app.get('/NewsSite/Update/:id', checkAuthenticated, GetUpdateNewsSitesForm);
 app.post('/NewsSite/Update/:id', checkAuthenticated, UpdateNewsSites);
 
+const { gather } = require('./tasks/finder');
+const mainJob = schedule.scheduleJob('* * * * *', async function () {
+  console.log('The answer to life, the universe, and everything!');
+  await gather();
+  console.log('ENDDD The answer to life, the universe, and everything!');
+});
 
 app.listen(process.env.PORT, '0.0.0.0', () => {
   console.log("Connected ! " + process.env.PORT + ' 0.0.0.0');
