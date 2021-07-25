@@ -1,9 +1,10 @@
-const { Client, Pool } = require('pg')
-
-const pool = new Pool({
-    host: process.env.PG_HOST,
-    user: process.env.PG_USER,
-    password: process.env.PG_PASSWORD,
-    database: process.env.PG_DB,
+var mysql = require('mysql2');
+var pool = mysql.createPool({
+    connectionLimit: process.env.MYSQL_CONNECTIONS,
+    host: process.env.MYSQL_HOST,
+    user: process.env.MYSQL_USER,
+    password: process.env.MYSQL_PASSWORD,
+    database: process.env.MYSQL_DBNAME
 });
+
 module.exports = pool;
