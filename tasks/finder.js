@@ -42,7 +42,7 @@ const gather = async function () {
 
                 let fileName = `${rows[i].name + uuidv4()}.png`;
                 await page.screenshot({ path: fileName, fullPage: true })
-                //await UpLoadFileImage(fileName);
+                await UpLoadFileImage(fileName);
                 const data = await page.evaluate(() => document.querySelector('*').outerHTML);
                 let SnapId = Number(rows[i].id);
                 console.log(rows[i])

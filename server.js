@@ -10,7 +10,8 @@ const flash = require('express-flash');
 const session = require('express-session');
 const methodOverride = require('method-override');
 const { GetCreateNewsSite, PostCreateNewsSite,
-  GetNewsSites, DeleteNewsSites, UpdateNewsSites, GetUpdateNewsSitesForm } = require('./routes/router_newssites');
+  GetNewsSites, DeleteNewsSites, UpdateNewsSites,
+  GetUpdateNewsSitesForm } = require('./routes/router_newssites');
 
 const { GetLoginPage, GetRegister,
   PostRegister, Logout, GetHomePage } = require('./routes/router_auth');
@@ -58,7 +59,8 @@ app.get('/NewsSite/Update/:id', checkAuthenticated, GetUpdateNewsSitesForm);
 app.post('/NewsSite/Update/:id', checkAuthenticated, UpdateNewsSites);
 
 const { gather } = require('./tasks/finder');
-const mainJob = schedule.scheduleJob('* * * * *', async function () {
+
+const mainJob = schedule.scheduleJob(process.env.CRON_EXPRESS, async function () {
   console.log('The answer to life, the universe, and everything!');
   await gather();
   console.log('ENDDD The answer to life, the universe, and everything!');
