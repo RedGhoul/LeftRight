@@ -145,28 +145,6 @@ const gather = async function () {
 
                                 }
                                 console.log("Done BBC");
-                            } else if (NAME === 'washingtonpost') {
-                                const stuff = $(".font--headline");
-                                if (!stuff) {
-                                    console.log("Error occured in washingtonpost for loop");
-                                    console.log(stuff);
-                                    return res.json({ error: "error" });
-                                }
-                                for (i = 0; i < stuff.length; i++) {
-                                    try {
-                                        if (stuff[i] || stuff[i].children || stuff[i].children[0].children[0].children[0].data) {
-                                            let headline = stuff[i].children[0].children[0].children[0].data.trim();
-                                            listOfHeadLines.push(headline);
-                                        }
-                                    } catch (error) {
-                                        console.log("Happend in For Loop - stuff[i].children[0].children[0].children[0].data");
-                                        console.log("Error found in washingtonpost");
-                                        console.log(error);
-                                    }
-
-
-                                }
-                                console.log("Done washingtonpost");
                             }
                         } catch (error) {
                             console.log(error);
@@ -176,20 +154,16 @@ const gather = async function () {
                         console.log("Got to await browser.close();");
                         await browser.close();
                         console.log("Sending the following back");
-                        console.log({
-                            photoIdName: fileName,
-                            HeadLines: listOfHeadLines
-                        });
                         if (listOfHeadLines.length > 0) {
                             var finalValue = [];
 
                             for (var i = 0; i < listOfHeadLines.length; i++) {
                                 finalValue.push([listOfHeadLines[i], rows2.insertId])
                             }
-                            console.log(finalValue)
+
                             client.promise().query('INSERT INTO `headline` (value_text, snapshot_id) VALUES ?',
                                 [finalValue]).then(([rows2, fields2]) => {
-                                    console.log(rows2)
+                                    console.log("CREATED ROWS");
                                     return;
 
                                 }).catch((error) => {

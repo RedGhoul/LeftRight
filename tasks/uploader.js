@@ -22,6 +22,7 @@ const UpLoadFileImage = async (fileName) => {
     };
     try {
         // Uploading files to the bucket
+        console.log("Uploading files to the bucket")
         await s3.upload(params).promise()
         await fs.unlink(fileName);
     } catch (error) {
