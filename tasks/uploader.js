@@ -2,7 +2,7 @@ const AWS = require('aws-sdk');
 const fs = require('fs').promises;
 require('dotenv').config()
 AWS.config.update({ region: "us-east-1" });
-const spacesEndpoint = new AWS.Endpoint('https://leftrightjs.nyc3.digitaloceanspaces.com');
+const spacesEndpoint = new AWS.Endpoint('nyc3.digitaloceanspaces.com');
 const s3 = new AWS.S3({
     apiVersion: '2006-03-01',
     endpoint: spacesEndpoint,
@@ -26,6 +26,7 @@ const UpLoadFileImage = async (fileName) => {
         await s3.upload(params).promise()
         await fs.unlink(fileName);
     } catch (error) {
+        console.log(error)
         console.log("Failed to upload")
     }
 
