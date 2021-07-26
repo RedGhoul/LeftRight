@@ -20,6 +20,7 @@ const { checkAuthenticated,
   checkNotAuthenticated, addLoginFlag } = require('./middleware/middleware');
 
 const initializePassport = require('./auth/passport-config');
+const { gather } = require('./tasks/finder');
 
 initializePassport(passport);
 app.set('view-engine', 'ejs');
@@ -32,13 +33,6 @@ app.use(session({
 }));
 app.use(passport.initialize());
 app.use(passport.session());
-console.log({
-  connectionLimit: process.env.MYSQL_CONNECTIONS,
-  host: process.env.MYSQL_HOST,
-  user: process.env.MYSQL_USER,
-  password: process.env.MYSQL_PASSWORD,
-  database: process.env.MYSQL_DBNAME
-})
 app.use(methodOverride('_method'));
 app.use(addLoginFlag);
 app.get('/', GetHomePage);
@@ -58,7 +52,7 @@ app.delete('/NewsSite/Delete/:id', checkAuthenticated, DeleteNewsSites);
 app.get('/NewsSite/Update/:id', checkAuthenticated, GetUpdateNewsSitesForm);
 app.post('/NewsSite/Update/:id', checkAuthenticated, UpdateNewsSites);
 
-const { gather } = require('./tasks/finder');
+
 
 const mainJob = schedule.scheduleJob(process.env.CRON_EXPRESS, async function () {
   console.log('The answer to life, the universe, and everything!');
