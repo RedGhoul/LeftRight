@@ -56,7 +56,7 @@ app.post('/NewsSite/Update/:id', checkAuthenticated, UpdateNewsSites);
 
 const mainJob = schedule.scheduleJob(process.env.CRON_EXPRESS, async function () {
   console.log('The answer to life, the universe, and everything!');
-  await gather();
+  //await gather();
   console.log('ENDDD The answer to life, the universe, and everything!');
 });
 

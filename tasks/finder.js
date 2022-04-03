@@ -1,9 +1,11 @@
 
-const puppeteer = require('puppeteer');
+const puppeteer = require('puppeteer-extra')
+const StealthPlugin = require('puppeteer-extra-plugin-stealth')
+puppeteer.use(StealthPlugin())
 const cheerio = require('cheerio');
 const { v4: uuidv4 } = require('uuid');
-const UpLoadFileImage = require('../tasks/uploader');
-const UserAgent = require('user-agents');
+// const UpLoadFileImage = require('../tasks/uploader');
+// const UserAgent = require('user-agents');
 require('dotenv').config();
 const client = require('../database/database');
 
@@ -42,7 +44,7 @@ const gather = async function () {
 
                 let fileName = `${rows[i].name + uuidv4()}.png`;
                 await page.screenshot({ path: fileName, fullPage: true })
-                await UpLoadFileImage(fileName);
+                //await UpLoadFileImage(fileName);
                 const data = await page.evaluate(() => document.querySelector('*').outerHTML);
                 let SnapId = Number(rows[i].id);
                 console.log(rows[i])
@@ -174,8 +176,6 @@ const gather = async function () {
                     }).catch((error) => {
                         console.log(error);
                     });
-
-
             }
         })
         .catch((error) => {
