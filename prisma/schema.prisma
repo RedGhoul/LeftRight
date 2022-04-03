@@ -1,0 +1,43 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model headline {
+  id                    Int      @id @default(autoincrement())
+  value_text            String   @db.VarChar(900)
+  created_on            DateTime @default(now()) @db.Timestamp(6)
+  snapshot_id           Int
+  value_text_sentiment  String?
+  sentiment_score       Float    @default(0)
+  sentiment_comparative Float    @default(0)
+  snapshot              snapshot @relation(fields: [snapshot_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_headline_snapshot_id")
+}
+
+model newssite {
+  id         Int        @id @default(autoincrement())
+  name       String     @db.VarChar(600)
+  url        String     @db.VarChar(600)
+  created_on DateTime   @default(now()) @db.Timestamp(6)
+  snapshot   snapshot[]
+}
+
+model snapshot {
+  id          Int        @id @default(autoincrement())
+  imageurl    String     @db.VarChar(1000)
+  created_on  DateTime   @default(now()) @db.Timestamp(6)
+  newssite_id Int
+  newssite    newssite   @relation(fields: [newssite_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_snapshot_newssite_id")
+  headline    headline[]
+}
+
+model users {
+  id       Int    @id @default(autoincrement())
+  name     String @db.VarChar(255)
+  email    String @db.VarChar(255)
+  password String
+}
